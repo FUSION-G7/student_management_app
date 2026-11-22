@@ -1,3 +1,95 @@
-from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect, get_object_or_404
 
-# Create your views here.
+from .models import Student
+from .forms import StudentForm
+from django.contrib.auth import login
+from .forms import RegisterForm
+
+
+def register(request):
+    if request.method == 'POST':
+
+        form = RegisterForm(request.POST)
+
+        if form.is_valid():
+            user = form.save()
+
+            login(request, user)
+
+            return redirect('student_list')
+
+    else:
+
+        form = RegisterForm()
+
+    return render(
+        request,
+        'registration/register.html',
+        {'form': form}
+    )
+
+@login_required
+def student_list(request):
+    students = Student.objects.all()
+
+    return render(
+        request,
+        'students/student_list.html',
+        {'students': students}
+    )
+
+@login_required
+def student_create(request):
+    if request.method == "POST":
+        form = StudentForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect('student_list')
+
+    else:
+        form = StudentForm()
+
+    return render(
+        request,
+        'students/student_form.html',
+        {'form': form}
+    )
+
+@login_required
+def student_update(request, pk):
+    student = get_object_or_404(Student, pk=pk)
+
+    if request.method == "POST":
+        form = StudentForm(
+            request.POST,
+            instance=student
+        )
+
+        if form.is_valid():
+            form.save()
+            return redirect('student_list')
+
+    else:
+        form = StudentForm(instance=student)
+
+    return render(
+        request,
+        'students/student_form.html',
+        {'form': form}
+    )
+
+@login_required
+def student_delete(request, pk):
+    student = get_object_or_404(Student, pk=pk)
+
+    if request.method == "POST":
+        student.delete()
+        return redirect('student_list')
+
+    return render(
+        request,
+        'students/student_confirm_delete.html',
+        {'student': student}
+    )
