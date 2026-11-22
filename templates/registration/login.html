@@ -1,27 +1,60 @@
 {% extends 'base.html' %}
 
+{% block title %}
+Login
+{% endblock %}
+
 {% block content %}
 
-    <h2>Login</h2>
+<div class="row justify-content-center">
 
-    <form method="post">
+    <div class="col-md-5">
 
-        {% csrf_token %}
+        <div class="card shadow">
 
-        {{ form.as_p }}
+            <div class="card-header bg-primary text-white">
 
-        <button class="btn btn-primary">
-            Login
-        </button>
+                <h3 class="mb-0">
+                    Login
+                </h3>
 
-    </form>
+            </div>
 
-    <p>
-        No Account?
+            <div class="card-body">
 
-        <a href="{% url 'register' %}">
-            Sign up here
-        </a>
-    </p>
+                <form method="post">
+
+                    {% csrf_token %}
+
+                    {{ form.as_p }}
+
+                    <button type="submit"
+                            class="btn btn-primary w-100">
+
+                        Login
+
+                    </button>
+
+                </form>
+
+                <hr>
+
+                <p class="text-center">
+
+                    Don't have an account?
+
+                    <a href="{% url 'register' %}">
+                        Register
+                    </a>
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
 
 {% endblock %}

@@ -1,19 +1,48 @@
 {% extends 'base.html' %}
 
+{% block title %}
+Register
+{% endblock %}
+
 {% block content %}
 
-<h2>Register</h2>
+<div class="row justify-content-center">
 
-<form method="post">
+    <div class="col-md-6">
 
-    {% csrf_token %}
+        <div class="card shadow">
 
-    {{ form.as_p }}
+            <div class="card-header bg-success text-white">
 
-    <button class="btn btn-success">
-        Register
-    </button>
+                <h3 class="mb-0">
+                    Create Account
+                </h3>
 
-</form>
+            </div>
+
+            <div class="card-body">
+
+                <form method="post">
+
+                    {% csrf_token %}
+
+                    {{ form.as_p }}
+
+                    <button type="submit"
+                            class="btn btn-success w-100">
+
+                        Register
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
 
 {% endblock %}
